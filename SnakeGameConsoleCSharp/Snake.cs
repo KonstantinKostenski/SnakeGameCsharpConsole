@@ -79,11 +79,20 @@ namespace SnakeGameConsoleCSharp
 
                 Position nextDirection = directions[direction];
                 Position snakeLastHead = snakeElements.Last();
-
                 Position snakeNewHead = new Position(snakeLastHead.Row + nextDirection.Row, snakeLastHead.Col + nextDirection.Col);
                 snakeElements.Enqueue(snakeNewHead);
-                Console.SetCursorPosition(snakeNewHead.Col, snakeNewHead.Row);
-                Console.Write('*');
+
+                if (snakeNewHead.Row >= Console.WindowHeight || snakeNewHead.Row < 0 || snakeNewHead.Col >= Console.WindowWidth || snakeNewHead.Col < 0 )
+                {
+                    Console.SetCursorPosition(Console.BufferWidth / 2, Console.BufferHeight / 2);
+                    Console.WriteLine($"Game Over! Score:{(snakeElements.Count - 6) * 100}");
+                }
+                else
+                {
+                    Console.SetCursorPosition(snakeNewHead.Col, snakeNewHead.Row);
+                    Console.Write('*');
+                }
+
 
                 if (snakeNewHead.Col == food.Col && snakeNewHead.Row == food.Row)
                 {
